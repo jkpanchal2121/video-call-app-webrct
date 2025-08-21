@@ -6,8 +6,10 @@ class VideoCallPage extends StatefulWidget {
   final String userName;
   final String roomName;
   final bool isHost;
+  final String serverUrl;
 
-  const VideoCallPage({super.key, required this.userName, required this.roomName, required this.isHost});
+
+  const VideoCallPage({super.key, required this.userName, required this.roomName, required this.isHost,required this.serverUrl});
 
   @override
   State<VideoCallPage> createState() => _VideoCallPageState();
@@ -33,7 +35,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
   }
 
   Future<void> initSignaling() async {
-    signaling.connect('http://192.168.1.114:3000');
+    signaling.connect(widget.serverUrl);
 
     signaling.socket.on('connect', (_) async {
       print("✅ Connected to signaling server: ${signaling.socket.id}");

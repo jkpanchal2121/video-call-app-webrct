@@ -22,14 +22,7 @@ class Signaling {
 
   // Connect to signaling server
   void connect(String url) {
-    socket = IO.io(
-      url,
-      IO.OptionBuilder()
-          .setTransports(['websocket'])
-          .disableAutoConnect()
-          .enableReconnection()
-          .build(),
-    );
+    socket = IO.io(url, IO.OptionBuilder().setTransports(['websocket']).disableAutoConnect().enableReconnection().build());
     socket.connect();
 
     socket.on('connect', (_) {
@@ -41,9 +34,7 @@ class Signaling {
     });
 
     socket.on('error', (data) {
-      final msg = data is Map && data['message'] != null
-          ? data['message']
-          : data.toString();
+      final msg = data is Map && data['message'] != null ? data['message'] : data.toString();
       _err('Server error: $msg');
     });
 
@@ -62,8 +53,7 @@ class Signaling {
       _hostId = data['hostId'] as String?;
       _amHost = (socket.id == _hostId);
 
-      _log(
-          '🟡 Joined room: $roomId | host: $_hostId | I am host? $_amHost | existing: ${participants.length}');
+      _log('🟡 Joined room: $roomId | host: $_hostId | I am host? $_amHost | existing: ${participants.length}');
       onRoomJoined?.call(roomId);
 
       // Only host sends offers
@@ -103,9 +93,7 @@ class Signaling {
       _log('📥 Offer from $from');
       final pc = await _createPeerConnection(from);
 
-      await pc.setRemoteDescription(
-        RTCSessionDescription(offer['sdp'], offer['type']),
-      );
+      await pc.setRemoteDescription(RTCSessionDescription(offer['sdp'], offer['type']));
 
       final answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -124,9 +112,7 @@ class Signaling {
 
       final pc = _peerConnections[from];
       if (pc != null) {
-        await pc.setRemoteDescription(
-          RTCSessionDescription(answer['sdp'], answer['type']),
-        );
+        await pc.setRemoteDescription(RTCSessionDescription(answer['sdp'], answer['type']));
       } else {
         _log('⚠️ No peerConnection for $from when answer arrived');
       }
@@ -138,13 +124,7 @@ class Signaling {
       final pc = _peerConnections[from];
 
       if (pc != null) {
-        await pc.addCandidate(
-          RTCIceCandidate(
-            cand['candidate'],
-            cand['sdpMid'],
-            cand['sdpMLineIndex'],
-          ),
-        );
+        await pc.addCandidate(RTCIceCandidate(cand['candidate'], cand['sdpMid'], cand['sdpMLineIndex']));
       } else {
         _log('⚠️ No peerConnection for $from when candidate arrived');
       }
@@ -229,11 +209,7 @@ class Signaling {
       if (candidate != null) {
         socket.emit('candidate', {
           'to': peerId,
-          'candidate': {
-            'candidate': candidate.candidate,
-            'sdpMid': candidate.sdpMid,
-            'sdpMLineIndex': candidate.sdpMLineIndex
-          },
+          'candidate': {'candidate': candidate.candidate, 'sdpMid': candidate.sdpMid, 'sdpMLineIndex': candidate.sdpMLineIndex},
         });
       }
     };

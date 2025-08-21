@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../video_call_page.dart';
 
 class HostPage extends StatefulWidget {
-  const HostPage({super.key});
+  final String serverUrl;
+
+  const HostPage({super.key,required this.serverUrl});
 
   @override
   State<HostPage> createState() => _HostPageState();
@@ -37,6 +39,7 @@ class _HostPageState extends State<HostPage> {
                     MaterialPageRoute(
                       builder: (_) => VideoCallPage(
                         userName: "Host",
+                        serverUrl: widget.serverUrl,
                         roomName: roomController.text.trim(),
                         isHost: true,
                       ),

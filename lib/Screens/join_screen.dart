@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../video_call_page.dart';
 
 class JoinPage extends StatefulWidget {
-  const JoinPage({super.key});
+  final String serverUrl;
+
+  const JoinPage({super.key, required this.serverUrl});
 
   @override
   State<JoinPage> createState() => _JoinPageState();
@@ -24,24 +26,17 @@ class _JoinPageState extends State<JoinPage> {
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                labelText: "Your Name",
-                border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(labelText: "Your Name", border: OutlineInputBorder()),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: roomController,
-              decoration: const InputDecoration(
-                labelText: "Room Name (from host)",
-                border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(labelText: "Room Name (from host)", border: OutlineInputBorder()),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (nameController.text.isNotEmpty &&
-                    roomController.text.isNotEmpty) {
+                if (nameController.text.isNotEmpty && roomController.text.isNotEmpty) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -49,6 +44,7 @@ class _JoinPageState extends State<JoinPage> {
                         userName: nameController.text.trim(),
                         roomName: roomController.text.trim(),
                         isHost: false,
+                        serverUrl: widget.serverUrl,
                       ),
                     ),
                   );
