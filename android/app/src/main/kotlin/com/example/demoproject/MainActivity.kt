@@ -1,4 +1,4 @@
-package com.example.demoproject
+package com.videoaudiocall.app
 
 import io.flutter.embedding.android.FlutterActivity
 

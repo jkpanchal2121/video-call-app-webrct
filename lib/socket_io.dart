@@ -11,6 +11,7 @@ class Signaling {
   // UI callbacks
   StreamCallback? onAddRemoteStream;
   TextCallback? onLog;
+  
   TextCallback? onError;
   void Function(String roomId)? onRoomCreated;
   void Function(String roomId)? onRoomJoined;

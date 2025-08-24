@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _urlController = TextEditingController(
-    text: "http://localhost:3000", // default URL (you can change)
+    text: "http://192.168.4.115:3000", // default URL (you can change)
   );
 
   @override
